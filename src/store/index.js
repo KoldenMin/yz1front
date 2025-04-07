@@ -1,7 +1,7 @@
 // vuex状态管理
-import { createStore } from 'vuex';
-import { login, getUserInfo } from '@/api/user';
-import { getToken, setToken, clearLoginInfo, setUserInfo } from '@/utils/auth';
+import {createStore} from 'vuex';
+import {login, getUserInfo} from '@/api/user';
+import {getToken, setToken, clearLoginInfo, setUserInfo} from '@/utils/auth';
 
 export default createStore({
     state: {
@@ -27,11 +27,12 @@ export default createStore({
     },
     actions: {
         // 用户登录
-        login({ commit }, userInfo) {
-            const { username, password } = userInfo;
+        login({commit}, userInfo) {
+            const {username, password} = userInfo;
             return new Promise((resolve, reject) => {
-                login({ username: username.trim(), password: password }).then(response => {
-                    const { data } = response;
+                login({username: username.trim(), password: password}).then(response => {
+                    // const {data} = response;
+                    const data = response.data;
                     commit('SET_TOKEN', data.token);
                     commit('SET_USER_INFO', data);
                     setToken(data.token);
@@ -44,10 +45,10 @@ export default createStore({
         },
 
         // 获取用户信息
-        getUserInfo({ commit, state }) {
+        getUserInfo({commit, state}) {
             return new Promise((resolve, reject) => {
                 getUserInfo().then(response => {
-                    const { data } = response;
+                    const {data} = response;
                     if (!data) {
                         reject('验证失败，请重新登录。');
                     }
@@ -61,7 +62,7 @@ export default createStore({
         },
 
         // 退出登录
-        logout({ commit }) {
+        logout({commit}) {
             return new Promise(resolve => {
                 commit('CLEAR_LOGIN_INFO');
                 clearLoginInfo();

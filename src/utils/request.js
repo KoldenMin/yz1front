@@ -1,12 +1,13 @@
 import axios from 'axios';
-import { ElMessage } from 'element-plus';
-import { getToken } from './auth';
+import {ElMessage} from 'element-plus';
+import {getToken} from './auth';
 import router from '@/router';
 
 // 创建axios实例
 const service = axios.create({
-    baseURL: process.env.VUE_APP_BASE_API || '/api', // API的base_url
-    timeout: 15000 // 请求超时时间
+    baseURL: import.meta.env.VITE_APP_BASE_API || '/api', // API的base_url
+    timeout: 15000, // 请求超时时间
+    withCredentials: false
 });
 
 // request拦截器
@@ -14,13 +15,14 @@ service.interceptors.request.use(
     config => {
         const token = getToken();
         if (token) {
-            config.headers['Authorization'] = 'Bearer ' + token;
+            config.headers['Authorization'] = `Bearer ${token}`;
+            console.log('完整的Authorization头:', config.headers['Authorization'])
         }
         return config;
     },
     error => {
         console.log(error);
-        Promise.reject(error);
+        return Promise.reject(error);
     }
 );
 
