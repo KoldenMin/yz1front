@@ -190,18 +190,14 @@ export default {
       startDate: [{required: true, message: '请选择开始日期', trigger: 'change'}]
     };
 
-    const fetchUserInfo = () => {
-      const userInfo1 = getUserInfo();
-      console.log(userInfo1);
-    }
 
     // 获取用户信息及教育背景
     const fetchUserData = async () => {
       loading.value = true;
       try {
         // 获取用户信息
+        console.log('开始获取用户信息，当前 token:', getToken());
         //能进入
-
         const userResponse = await getUserInfo();
         console.log('userResponse', userResponse);
         console.log(getToken())
@@ -212,6 +208,7 @@ export default {
         userInfo.value.educationList = eduResponse.data;
       } catch (error) {
         console.error('获取用户数据失败:', error);
+        console.error('错误详情:', error.response ? error.response.data : '无响应数据');
         ElMessage.error('获取用户数据失败');
       } finally {
         loading.value = false;

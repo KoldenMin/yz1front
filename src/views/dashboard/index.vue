@@ -158,7 +158,7 @@ export default {
       isAdmin,
       formatDate,
       goToProfile,
-      goToUserList
+      goToUserList,
     };
   }
 };
